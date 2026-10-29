@@ -1,0 +1,12 @@
+REGISTRE O MIDDLEWARE NO bootstrap/app.php EXISTENTE.
+
+Adicione os imports:
+use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\AdminMiddleware;
+
+Dentro da chamada ->withMiddleware(function (Middleware $middleware) { ... }), adicione:
+$middleware->alias([
+    'admin' => AdminMiddleware::class,
+]);
+
+Não substitua o bootstrap/app.php inteiro: preserve as configurações padrão do Laravel 13.

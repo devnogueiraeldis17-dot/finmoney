@@ -1,0 +1,12 @@
+<?php $__env->startSection('title', 'Despesas — FinMoney'); ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-head"><div><p class="eyebrow">CONTROLE DE GASTOS</p><h1>Despesas</h1><p>Visualize as despesas e suas parcelas.</p></div><a class="btn btn-primary" href="<?php echo e(route('expenses.create')); ?>">Nova despesa</a></div>
+<section class="panel table-wrap"><table><thead><tr><th>Despesa</th><th>Categoria</th><th>Lançamento</th><th>Vencimento</th><th>Parcela</th><th>Valor</th><?php if(auth()->user()->isAdmin()): ?><th>Ações</th><?php endif; ?></tr></thead><tbody>
+<?php $__empty_1 = true; $__currentLoopData = $expenses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $expense): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><tr><td><?php echo e($expense->name); ?><?php if($expense->description): ?><small class="block muted"><?php echo e($expense->description); ?></small><?php endif; ?></td><td><?php echo e($expense->category->name); ?></td><td><?php echo e($expense->launch->name); ?> (<?php echo e(sprintf('%02d', $expense->launch->month)); ?>/<?php echo e($expense->launch->year); ?>)</td><td><?php echo e($expense->due_date->format('d/m/Y')); ?></td><td><?php echo e($expense->installment_number); ?>/<?php echo e($expense->installments); ?></td><td>R$ <?php echo e(number_format((float)$expense->value,2,',','.')); ?></td>
+<?php if(auth()->user()->isAdmin()): ?><td class="actions"><a href="<?php echo e(route('admin.expenses.edit', $expense)); ?>">Editar grupo</a><form method="POST" action="<?php echo e(route('admin.expenses.destroy', $expense)); ?>" onsubmit="return confirm('Excluir esta despesa e todas as parcelas do grupo?')"><?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?><button class="link-danger">Excluir grupo</button></form></td><?php endif; ?>
+</tr><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><tr><td colspan="7">Nenhuma despesa cadastrada.</td></tr><?php endif; ?>
+</tbody></table></section><?php echo e($expenses->links()); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\finmoney\resources\views/expenses/index.blade.php ENDPATH**/ ?>

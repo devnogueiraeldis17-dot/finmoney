@@ -1,0 +1,31 @@
+Mescle estes trechos com a classe User existente. Preserve os traits e métodos padrão do Laravel.
+
+protected $fillable = [
+    'name', 'birth_date', 'email', 'password', 'role',
+];
+
+protected $hidden = ['password', 'remember_token'];
+
+protected function casts(): array
+{
+    return [
+        'email_verified_at' => 'datetime',
+        'birth_date' => 'date',
+        'password' => 'hashed',
+    ];
+}
+
+public function launches()
+{
+    return $this->hasMany(\App\Models\Launch::class);
+}
+
+public function expenses()
+{
+    return $this->hasMany(\App\Models\Expense::class);
+}
+
+public function isAdmin(): bool
+{
+    return $this->role === 'admin';
+}
